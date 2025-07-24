@@ -13,7 +13,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
-        setContentView(binding.root)
+
+
+        // Set your Toolbar
+        setSupportActionBar(binding.toolbar)
+
+        // Optional: Set title or back button
+        supportActionBar?.title = "Home"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         setSupportActionBar(findViewById(R.id.toolbar))
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

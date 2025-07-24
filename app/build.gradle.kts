@@ -43,7 +43,11 @@ dependencies {
 
 
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
-   implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -1,6 +1,6 @@
 package com.tops.chatapp.fragments
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,7 +32,6 @@ class SplashScreenFragment : Fragment() {
             }else{
                 findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment)
             } }, 3000)
-
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -8,18 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.tops.chatapp.R
 import com.tops.chatapp.databinding.FragmentRegisterBinding
+import com.tops.chatapp.viewModels.RegisterViewModel
 
 
-private lateinit var auth: FirebaseAuth
-private lateinit var binding: FragmentRegisterBinding
 class RegisterFragment : Fragment() {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: FragmentRegisterBinding
+
+    private val viewModel: RegisterViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,13 +37,24 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.hide()
 
+
+
+
         binding.btnRegister.setOnClickListener {
             if (signup()==true){
+                val username = binding.etUsername.text.toString()
                 val email = binding.etEmail.text.toString()
                 val password = binding.etConfirmPassword.text.toString()
 
                 auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
                     if (task.isSuccessful){
+                        viewModel.registerUser(username,email,password){
+                            success,message->  Toast.makeText(requireContext(), "Succesfully Registered", Toast.LENGTH_SHORT).show()
+                            if (success) {
+                                // Navigate to Home
+                                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                            }
+                        }
                         findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                     }else{
                         Toast.makeText(context,"New User Not Registered ",Toast.LENGTH_SHORT).show()
@@ -49,22 +64,6 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(context,"Please Fill Details Properly",Toast.LENGTH_SHORT).show()
             }
         }
-
-//        binding.btnRegister.setOnClickListener {
-//            val username = binding.etUsername.text.toString()
-//            val password = binding.etConfirmPassword.text.toString()
-//            if(signup()== true){
-//                auth.createUserWithEmailAndPassword(username,password).addOnCompleteListener{
-//                    if (it.isSuccessful){
-//                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-//                    }else{
-//                        Toast.makeText(context,"New User Not Registered ",Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            } else{
-//                Toast.makeText(context,"Please Fill Details Properly",Toast.LENGTH_SHORT).show()
-//            }
-//        }
 
         binding.btnlogin.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
