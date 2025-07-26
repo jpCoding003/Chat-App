@@ -46,18 +46,12 @@ class RegisterFragment : Fragment() {
                 val email = binding.etEmail.text.toString()
                 val password = binding.etConfirmPassword.text.toString()
 
-                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-                    if (task.isSuccessful){
-                        viewModel.registerUser(username,email,password){
-                            success,message->  Toast.makeText(requireContext(), "Succesfully Registered", Toast.LENGTH_SHORT).show()
-                            if (success) {
-                                // Navigate to Home
-                                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                            }
-                        }
+                viewModel.registerUser(username, email, password) { success, message ->
+                    if (success) {
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                    }else{
-                        Toast.makeText(context,"New User Not Registered ",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }else{

@@ -1,6 +1,7 @@
 package com.tops.chatapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class UserListFragment : Fragment() {
         binding.recyclerview.adapter = adapter
 
         userviewModel.userList.observe(viewLifecycleOwner) { users ->
+            Log.d("UserListFragment", "Users received: ${users.size}")
            adapter.updateList(users)
         }
 
