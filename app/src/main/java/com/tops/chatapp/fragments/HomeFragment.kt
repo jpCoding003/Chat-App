@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
@@ -48,8 +47,13 @@ class HomeFragment : Fragment() {
 
             Toast.makeText(context, "WellCome ${user.email}", Toast.LENGTH_LONG).show()
         }
+
         userviewmodel.userList.observe(viewLifecycleOwner, Observer{
-            list-> UserAdapter(list.toMutableList())
+            list-> UserAdapter(list.toMutableList()){ selectedUser ->
+            // Handle user click
+            // For example, navigate to ChatFragment or show Toast
+            Toast.makeText(requireContext(), "Clicked: ${selectedUser.username}", Toast.LENGTH_SHORT).show()
+        }
         })
 
         setupMenu()

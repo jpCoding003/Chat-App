@@ -8,7 +8,7 @@ import com.tops.chatapp.R
 import com.tops.chatapp.databinding.UserRowItemBinding
 import com.tops.chatapp.model.User
 
-class UserAdapter(private var userlist: MutableList<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private var userlist: MutableList<User> ,private val onClick: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,7 +29,16 @@ class UserAdapter(private var userlist: MutableList<User>) : RecyclerView.Adapte
             .load(if (users.imageUrl == "default") R.drawable.ic_launcher_foreground else users.imageUrl)
             .into(holder.binding.imgProfile)
 
+        holder.itemView.setOnClickListener {
+            onClick(users)
+        }
 
+    }
+
+    fun updateList(newList: List<User>) {
+        userlist.clear()
+        userlist.addAll(newList)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = userlist.size

@@ -41,7 +41,7 @@ class LoginFragment : Fragment() {
             val password = binding.etPassword.text.toString()
             auth.signInWithEmailAndPassword(email,password).addOnCompleteListener{
                 if (it.isSuccessful){
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_userListFragment)
                 }else{
                     Toast.makeText(context,"Authentication Failed",Toast.LENGTH_SHORT).show()
                 }

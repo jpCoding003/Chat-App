@@ -1,5 +1,6 @@
 package com.tops.chatapp.viewModels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,6 +34,11 @@ class UserViewModel : ViewModel() {
                 // handle error
             }
         })
+    }
+
+     fun onDataChange(snapshot: DataSnapshot) {
+        Log.d("UserViewModel", "Snapshot: ${snapshot.childrenCount} users")
+        // ...
     }
 
 }

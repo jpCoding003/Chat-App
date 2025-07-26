@@ -28,7 +28,7 @@ class SplashScreenFragment : Fragment() {
         val currentuser = auth.currentUser
         Handler(Looper.getMainLooper()).postDelayed({
             if (currentuser != null){
-                findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+                findNavController().navigate(R.id.action_splashScreenFragment_to_userListFragment)
             }else{
                 findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment)
             } }, 3000)

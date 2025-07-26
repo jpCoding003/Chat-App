@@ -16,7 +16,13 @@ class RegisterViewModel : ViewModel()  {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val uid = auth.currentUser?.uid ?: return@addOnCompleteListener
-                    val user = User(uid, username, email)
+                    val user = User(
+                        uid = uid,
+                        username = username,
+                        email = email,
+                        status = "Hey there! I'm using Chat App",
+                        imageUrl = "default"
+                    )
 
                     // Store in Realtime DB under "Users/uid"
                     database.child("Users").child(uid).setValue(user)

@@ -20,6 +20,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_splashScreenFragment_to_userListFragment"
+            app:destination="@id/userListFragment"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -36,6 +39,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_loginFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -54,5 +60,15 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.tops.chatapp.fragments.UserListFragment"
+        android:label="fragment_user_list"
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_splashScreenFragment"
+            app:destination="@id/splashScreenFragment" />
     </fragment>
 </navigation>
