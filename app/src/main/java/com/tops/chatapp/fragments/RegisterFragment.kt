@@ -37,9 +37,6 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.hide()
 
-
-
-
         binding.btnRegister.setOnClickListener {
             if (signup()==true){
                 val username = binding.etUsername.text.toString()
