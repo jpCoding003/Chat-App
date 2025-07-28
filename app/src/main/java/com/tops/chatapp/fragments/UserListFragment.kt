@@ -41,8 +41,10 @@ class UserListFragment : Fragment() {
 
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
         adapter = UserAdapter(mutableListOf()) { selectedUser ->
-            // On User Click → Navigate to Chat Fragment or show profile
-            Toast.makeText(requireContext(), "Clicked: ${selectedUser.username}", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle().apply {
+                putParcelable("receiver_user", selectedUser)
+            }
+            findNavController().navigate(R.id.action_userListFragment_to_chatFragment, bundle)
         }
         binding.recyclerview.adapter = adapter
 

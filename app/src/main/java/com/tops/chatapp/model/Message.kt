@@ -2,7 +2,13 @@ package com.tops.chatapp.model
 
 
 data class Message(
-    val message: String = "",
+    val messageId: String = "",
     val senderId: String = "",
-    val timestamp: Long = 0
-)
+    val receiverId: String = "",
+    val message: String = "",
+    val timestamp: Long = System.currentTimeMillis(),
+    val messageType: String = "text"
+){
+    // No-argument constructor for Firebase
+    constructor() : this("", "", "", "", 0L, "text")
+}
