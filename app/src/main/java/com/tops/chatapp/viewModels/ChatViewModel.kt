@@ -4,12 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.tops.chatapp.model.Message
+import com.tops.chatapp.utils.NotificationHelper
 
 class ChatViewModel : ViewModel() {
     private val database = FirebaseDatabase.getInstance().reference
@@ -19,6 +16,10 @@ class ChatViewModel : ViewModel() {
     private var messagesListener: ValueEventListener? = null
     private var chatRef: DatabaseReference? = null
 
+    /**
+     * Send message and trigger push notification
+     * MAIN CHANGE: Added notification sending after message is saved
+     */
     fun sendMessage(chatId: String, senderId: String, receiverId: String, messageText: String) {
         Log.d("ChatViewModel", "Sending message - ChatId: $chatId, SenderId: $senderId, Message: $messageText")
 
@@ -44,10 +45,50 @@ class ChatViewModel : ViewModel() {
                 Log.d("ChatViewModel", "Message saved successfully to Firebase")
                 // Update chat metadata
                 updateChatMetadata(chatId, senderId, receiverId, messageText)
+
+                // NEW: Send push notification to receiver
+                sendNotificationToReceiver(senderId, receiverId, messageText, chatId)
             }
             .addOnFailureListener { error ->
                 Log.e("ChatViewModel", "Failed to save message: ${error.message}")
             }
+    }
+
+    /**
+     * NEW METHOD: Send push notification to message receiver
+     */
+    private fun sendNotificationToReceiver(senderId: String, receiverId: String, message: String, chatId: String) {
+        Log.d("ChatViewModel", "Preparing notification for receiver: $receiverId")
+
+        // Get sender's name from database
+        database.child("Users").child(senderId).child("username")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val senderName = snapshot.getValue(String::class.java) ?: "Unknown User"
+                    Log.d("ChatViewModel", "Found sender name: $senderName")
+
+                    // Send notification using NotificationHelper
+                    NotificationHelper.sendNotificationToUser(
+                        receiverId = receiverId,
+                        senderName = senderName,
+                        message = message,
+                        senderId = senderId,
+                        chatId = chatId
+                    )
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("ChatViewModel", "Failed to get sender name: ${error.message}")
+                    // Send notification anyway with default name
+                    NotificationHelper.sendNotificationToUser(
+                        receiverId = receiverId,
+                        senderName = "New Message",
+                        message = message,
+                        senderId = senderId,
+                        chatId = chatId
+                    )
+                }
+            })
     }
 
     fun loadMessages(chatId: String) {

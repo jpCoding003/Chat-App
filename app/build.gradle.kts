@@ -47,8 +47,14 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
 
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
