@@ -40,12 +40,8 @@ class UserListFragment : Fragment() {
         val currentUid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-        adapter = UserAdapter(mutableListOf()) { selectedUser ->
-            val bundle = Bundle().apply {
-                putParcelable("receiver_user", selectedUser)
-            }
-            findNavController().navigate(R.id.action_userListFragment_to_chatFragment, bundle)
-        }
+
+        adapter = UserAdapter(mutableListOf())
         binding.recyclerview.adapter = adapter
 
         userviewModel.userList.observe(viewLifecycleOwner) { users ->
